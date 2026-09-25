@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es" class="cosmos" xmlns:th="http://www.thymeleaf.org">
+
+  <head th:replace="layout/layout :: head"> </head>
+  <body>
+    <!-- Interactive starfield background -->
+    <canvas id="starfield" aria-hidden="true"></canvas>
+
+    <!-- Navigation -->
+    <header th:replace="layout/layout :: navigator"/> </header>
+
+    <main>
+      <!-- Hero -->
+      <section id="top" class="hero">
+        <div class="hero-bg" id="heroBg" aria-hidden="true">
+          <img th:src="@{'/img/nebula.png'}" />
+          <div class="hero-bg-fade"></div>
+        </div>
+        <div class="hero-content" id="heroContent">
+          <span class="pill">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" class="pill-icon" aria-hidden="true"><path d="M12 3l1.9 5.8L20 10l-5.8 2.1L12 18l-2.1-5.9L4 10l6.1-1.2z"/></svg>
+          Un viaje interactivo por el universo
+          </span>
+          <p th:text="${saludo}">Welcome to our grocery store!</p>
+          <h1 class="hero-title text-glow">
+            Explora el<br /><span class="accent">Espacio Exterior</span>
+          </h1>
+          <p class="hero-sub">
+            Sumérgete en un cosmos vivo. Navega entre estrellas, orbita planetas y
+            descubre los secretos del universo con solo mover el cursor.
+          </p>
+          <div class="hero-actions">
+            <a href="#explorar" class="btn btn-primary">Comenzar exploración</a>
+            <a href="#sistema" class="btn btn-ghost">Ver el sistema solar</a>
+          </div>
+        </div>
+        <a href="#explorar" class="scroll-hint" aria-label="Desplázate para explorar">
+          <span>Desplázate</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        </a>
+      </section>
+
+      <!-- Planet explorer -->
+      <section id="explorar" class="section">
+        <div class="section-head reveal">
+          <p class="eyebrow">01 — Explorador</p>
+          <h2 class="section-title">Conoce a los vecinos del sistema solar</h2>
+          <p class="section-lead">
+            Selecciona un mundo para descubrir sus datos. Cada planeta esconde una
+            historia escrita en roca, hielo y gas.
+          </p>
+        </div>
+        <div class="explorer reveal">
+          <div class="planet-tabs" id="planetTabs" role="tablist" aria-label="Selecciona un planeta"></div>
+          <div class="planet-detail" id="planetDetail"></div>
+        </div>
+      </section>
+
+      <!-- Solar system -->
+      <section id="sistema" class="section">
+        <div class="section-head reveal">
+          <p class="eyebrow">02 — Sistema Solar</p>
+          <h2 class="section-title">Una danza orbital en tiempo real</h2>
+          <p class="section-lead">
+            Los planetas giran a distintas velocidades. Pasa el cursor para pausar la
+            órbita y haz clic en un mundo para enfocarlo.
+          </p>
+        </div>
+        <div class="orrery-wrap reveal">
+          <div class="orrery" id="orrery"></div>
+          <p class="orrery-caption" id="orreryCaption">Pasa el cursor para pausar · haz clic en un planeta</p>
+        </div>
+      </section>
+
+      <!-- Cosmic facts -->
+      <section id="datos" class="section">
+        <div class="section-head reveal">
+          <p class="eyebrow">03 — En cifras</p>
+          <h2 class="section-title">El universo en números que cuesta imaginar</h2>
+        </div>
+        <div class="facts" id="facts"></div>
+      </section>
+
+      <!-- Gallery -->
+      <section id="galeria" class="section gallery-section">
+        <div class="section-head reveal">
+          <p class="eyebrow">04 — Galería</p>
+          <h2 class="section-title">Una vuelta por el cosmos</h2>
+        </div>
+        <div class="gallery" id="gallery">
+          <div class="gallery-center">
+            <p class="gallery-label" id="galleryLabel">Galaxia espiral</p>
+            <p class="gallery-hint">Pasa el cursor para pausar</p>
+          </div>
+          <div class="gallery-scale">
+            <div class="gallery-ring" id="galleryRing"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <a href="#top" class="brand"><span class="brand-dot" aria-hidden="true"></span>COSMOS</a>
+        <p class="footer-note">
+          Hecho con curiosidad por el universo. Los datos son aproximados y con fines
+          educativos.
+        </p>
+        <p class="footer-copy">© <span id="year"></span> Cosmos · Un viaje interactivo</p>
+      </div>
+    </footer>
+
+    <script th:src="@{/js/script.js}"></script>
+  </body>
+</html>
