@@ -1,0 +1,70 @@
+spring:
+  application:
+    name: web
+  # MySql Database
+  datasource:
+    url: jdbc:mysql://localhost:3306/universidad
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+server:
+  port: ${PORT:8081}
+secret:
+  apiKey: digitalers.clave.super.secreta.123456789
+app:
+  cors:
+    allowed-origins: http://localhost:8080,http://localhost:80
+
+openapi: 3.0.0
+info:
+  title: API de Ejemplo
+  description: Documentación de la API de ejemplo
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /persona:
+    get:
+      summary: Obtener lista de personas
+      responses:
+        '200':
+          description: Lista de personas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PersonaDto'
+    post:
+      summary: Crear una nueva persona
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonaDto'
+      responses:
+        '201':
+          description: Persona creada
+components:
+  schemas:
+    PersonaDto:
+      type: object
+      properties:
+        nombre:
+          type: string
+        apellido:
+          type: string
+        edad:
+          type: integer
+          format: int32
+        direccion:
+          type: string
+        telefono:
+          type: string
+        email:
+          type: string

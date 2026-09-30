@@ -25,4 +25,7 @@ public class Estudiante {
 
     @ManyToMany(mappedBy = "estudiante", fetch = FetchType.LAZY)
     private List<Curso> cursos;
+
+    // opinion de los profesores
+    //otros campos con informacion que no queremos que la persona conozca .....
 }

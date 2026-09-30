@@ -1,6 +1,7 @@
 package EducacionIt.web.entities;
 
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,6 +16,7 @@ public class Persona {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Schema(description = "Nombre de  la persona", example = "Nestor", maxLength = 50)
     @Column(length = 50)
     private String nombre;
 
