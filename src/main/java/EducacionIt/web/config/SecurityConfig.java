@@ -1,5 +1,6 @@
 package EducacionIt.web.config;
 
+import EducacionIt.web.security.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -38,6 +40,9 @@ public class SecurityConfig {
     @Value("${app.cors.allowed-origins:http://localhost:8080,http://localhost:80}")
     private String allowedOrigins;
 
+    @Autowired
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -51,12 +56,16 @@ public class SecurityConfig {
                         // ####################### ACA CONFIGURAMOS EL ACCESO A NUESTROS ENDPOINTS/RECURSOS ##################################
                                 .requestMatchers(HttpMethod.GET,  "/css/**","/js/**","/img/**", "/swagger-ui.html").permitAll() // Endpoints públicos
                                 .requestMatchers("/public/**").permitAll() // Endpoints públicos
-                                .requestMatchers("/persona/**").hasRole("ADMIN")
+                                .requestMatchers("/persona/**").hasRole("USER")
                                 .requestMatchers("/").hasRole("PROHIBIDO")
+                                .requestMatchers("/auth/**").permitAll()
                                 .anyRequest().authenticated() // Todos los demás
                         //##################################################################################################################################
                 )
-                .httpBasic(Customizer.withDefaults()); // Habilita la autenticación básica
+                //.httpBasic(Customizer.withDefaults()); // Habilita la autenticación básica
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); //filtro que valida si el token en la solicitud es valido
+
+
         return http.build();
     }
 
@@ -86,6 +95,5 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
 
 }

@@ -1,10 +1,7 @@
 package EducacionIt.web.controllers;
 
-import EducacionIt.web.dto.EstudianteDto;
 import EducacionIt.web.entities.Estudiante;
-import EducacionIt.web.entities.Persona;
 import EducacionIt.web.services.EstudianteService;
-import EducacionIt.web.services.PersonaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

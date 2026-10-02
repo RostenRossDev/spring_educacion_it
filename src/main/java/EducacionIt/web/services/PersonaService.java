@@ -27,10 +27,6 @@ public class PersonaService {
         return repository.findById(id).get();
     }
 
-    public Persona findByEmail(String email){
-        return repository.findByEmail(email);
-    }
-
     public List<Persona> findByLastName(String apellido){
         return repository.findByApellido(apellido);
     }
@@ -60,11 +56,6 @@ public class PersonaService {
         if (email == null && apellido != null) {
             List<Persona> personas = findByLastName(apellido);
             return new ResponseEntity<>(personas, HttpStatus.OK);
-        }
-
-        if (email != null && apellido == null) {
-            Persona persona = findByEmail(email);
-            return new ResponseEntity<>(persona, HttpStatus.OK);
         }
 
         String message = "Al menos uno de los siguientes parametros no debe ser nulo {lastname, correo}";

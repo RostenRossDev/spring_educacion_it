@@ -32,6 +32,4 @@ public class Persona {
     @Column(length = 10)
     private String telefono;
 
-    @Column(length = 50, unique = true)
-    private String email;
 }

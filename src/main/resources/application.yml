@@ -11,14 +11,14 @@ spring:
     database-platform: org.hibernate.dialect.MySQLDialect
     show-sql: true
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create-drop
 server:
   port: ${PORT:8081}
 secret:
   apiKey: digitalers.clave.super.secreta.123456789
 app:
   cors:
-    allowed-origins: http://localhost:8080,http://localhost:80
+    allowed-origins: http://localhost:8080,http://localhost:3000
 
 openapi: 3.0.0
 info:

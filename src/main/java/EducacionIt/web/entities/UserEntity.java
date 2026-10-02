@@ -21,12 +21,6 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 30)
-    private String name;
-
-    @Column(length = 30)
-    private String lastname;
-
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -35,6 +29,9 @@ public class UserEntity {
 
     @Column(nullable = false)
     private Boolean active = true;
+
+    @OneToOne
+    private Persona persona;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -49,15 +46,4 @@ public class UserEntity {
         return this.email;
     }
 
-    public String getFullName() {
-        StringBuilder fullName = new StringBuilder();
-        if (name != null && !name.isEmpty()) {
-            fullName.append(name);
-        }
-        if (lastname != null && !lastname.isEmpty()) {
-            if (fullName.length() > 0) fullName.append(" ");
-            fullName.append(lastname);
-        }
-        return fullName.length() > 0 ? fullName.toString() : email;
-    }
 }

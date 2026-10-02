@@ -26,7 +26,17 @@ public class EstudianteService {
 
         Estudiante estudiante = repository.findById(id).get();
         Persona p = estudiante.getPersonaFK();
-        return new EstudianteDto(estudiante.getLegajo(), p.getNombre(), p.getApellido(), p.getEdad(), p.getDireccion(), p.getTelefono(), p.getEmail(), estudiante.getCursos());
+        return EstudianteDto.builder()
+                .cursos(estudiante.getCursos())
+                .edad(p.getEdad())
+                .nombre(p.getNombre())
+                .legajo(estudiante.getLegajo())
+                .apellido(p.getApellido())
+                .telefono(p.getTelefono())
+                .direccion(p.getDireccion())
+                .build();
+
+       // return new EstudianteDto(estudiante.getLegajo(), p.getNombre(), p.getApellido(), p.getEdad(), p.getDireccion(), p.getTelefono(), estudiante.getCursos());
     }
 
     @Transactional

@@ -11,7 +11,7 @@ import java.util.List;
 public interface PersonaRepository extends JpaRepository<Persona, Long> {
 
     List<Persona> findByApellido(String apellido);
-    Persona findByEmail(String email);
+   // Persona findByEmail(String email);
 
 
 //    @Query("select p from Persona p inner join Empleado em on p.id = em.personaFK inner join Estudiante es on p.id = es.personaFK")
