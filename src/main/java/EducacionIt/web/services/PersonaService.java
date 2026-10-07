@@ -18,7 +18,6 @@ public class PersonaService {
     @Autowired
     private PersonaRepository repository;
 
-
     public List<Persona> all(){
         return repository.findAll();
     }

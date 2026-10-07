@@ -34,7 +34,7 @@ public class PersonaController {
     public ResponseEntity<?> create(@RequestBody Persona persona){
         System.out.println("Ingreso al controller para crear pesonas: " + persona);
         Persona newPersona = personaService.save(persona);
-        return new ResponseEntity<>(newPersona, HttpStatus.OK);
+        return new ResponseEntity<>(newPersona, HttpStatus.CREATED);
     }
 
 
@@ -57,7 +57,7 @@ public class PersonaController {
             @ApiResponse(responseCode = "404", description = "Persona no encontrada")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById( @Parameter(name = "id", description = "ID de la persona a buscar", example = "1") @PathVariable("id") Long id){
+    public ResponseEntity<Persona> findById( @Parameter(name = "id", description = "ID de la persona a buscar", example = "1") @PathVariable("id") Long id){
         Persona persona = personaService.findById(id);
         return new ResponseEntity<>(persona, HttpStatus.OK);
     }

@@ -1,9 +1,15 @@
 package EducacionIt.web.security;
 
+import EducacionIt.web.entities.Role;
+import EducacionIt.web.entities.UserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import io.jsonwebtoken.security.Keys;
 import javax.crypto.SecretKey;
@@ -21,6 +27,7 @@ public class JwtUtil {
      */
     @Value("${secret.apiKey:digitalers.clave.super.secreta.123456789}")
     private String SECRET_KEY;
+
 
     /**
      * Tiempo de validez del token de acceso: 1 hora (3600000 ms)
@@ -183,5 +190,44 @@ public class JwtUtil {
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+
+
+    public static String generarTokenParaUsuario(String email, @Autowired IUserService userService) {
+
+        User userDetails = userService.getByEmail(email);
+
+        Map<String, Object> additionalInfo = additionalInfo(userDetails);
+        return generateTokenStatic(userDetails, additionalInfo); // O el método que uses
+    }
+
+    private static SecretKey getSigningSecretKeyStatic() {
+        return Keys.hmacShaKeyFor("digitalers.clave.super.secreta.123456789".getBytes());
+    }
+
+    private static String createTokenStatic(Map<String, Object> claims, String subject, long validity) {
+        return Jwts.builder()
+                .claims(claims)                                                      // Agrega claims personalizados
+                .subject(subject)                                                    // Username del usuario
+                .issuedAt(new Date(System.currentTimeMillis()))                     // Fecha de emisión
+                .expiration(new Date(System.currentTimeMillis() + validity))        // Fecha de expiración
+                .signWith(getSigningSecretKeyStatic())                                    // Firma con algoritmo HS256
+                .compact();                                                          // Genera el token final
+    }
+
+    private static String generateTokenStatic(UserDetails userDetails, Map<String, Object> extraClaims) {
+        Map<String, Object> claims = new HashMap<>(extraClaims);
+        return createTokenStatic(claims, userDetails.getUsername(), ACCESS_TOKEN_VALIDITY);
+    }
+
+    private static Map<String, Object> additionalInfo(User userDetails){
+        Map<String, Object> additionalInfo = new HashMap<>();
+        additionalInfo.put("email", userDetails.getEmail());
+        additionalInfo.put("name", userDetails.getName());
+        additionalInfo.put("lastname", userDetails.getLastname());
+
+        // Roles
+        additionalInfo.put("roles", userDetails.getRoles());
+        return additionalInfo;
     }
 }

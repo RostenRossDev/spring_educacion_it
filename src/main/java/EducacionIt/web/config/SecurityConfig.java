@@ -56,7 +56,7 @@ public class SecurityConfig {
                         // ####################### ACA CONFIGURAMOS EL ACCESO A NUESTROS ENDPOINTS/RECURSOS ##################################
                                 .requestMatchers(HttpMethod.GET,  "/css/**","/js/**","/img/**", "/swagger-ui.html").permitAll() // Endpoints públicos
                                 .requestMatchers("/public/**").permitAll() // Endpoints públicos
-                                .requestMatchers("/persona/**").hasRole("USER")
+                                .requestMatchers("/persona/**").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers("/").hasRole("PROHIBIDO")
                                 .requestMatchers("/auth/**").permitAll()
                                 .anyRequest().authenticated() // Todos los demás
