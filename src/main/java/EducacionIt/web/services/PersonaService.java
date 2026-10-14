@@ -4,6 +4,7 @@ import EducacionIt.web.entities.Persona;
 import EducacionIt.web.exceptions.BadArgtumentException;
 import EducacionIt.web.exceptions.RegisterNotFoundException;
 import EducacionIt.web.repositories.PersonaRepository;
+import EducacionIt.web.validator.NotVoid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
 
 @Service
 public class PersonaService {
@@ -22,11 +24,11 @@ public class PersonaService {
         return repository.findAll();
     }
 
-    public Persona findById(Long id) {
+    public Persona findById(@Autowired Long id) {
         return repository.findById(id).get();
     }
 
-    public List<Persona> findByLastName(String apellido){
+    public List<Persona> findByLastName(@NotVoid String apellido){
         return repository.findByApellido(apellido);
     }
 
@@ -37,7 +39,7 @@ public class PersonaService {
     }
 
     @Transactional
-    public Persona update(Persona persona) {
+    public Persona update(@NotVoid Persona persona) {
         Persona toUpdate = repository.findById(persona.getId()).get();
         if (toUpdate == null) throw new RegisterNotFoundException(String.format("Persona con id %s no encontrado", persona.getId().toString()));
         return repository.save(persona);
@@ -60,6 +62,5 @@ public class PersonaService {
         String message = "Al menos uno de los siguientes parametros no debe ser nulo {lastname, correo}";
         throw new BadArgtumentException(message);
     }
-
 
 }

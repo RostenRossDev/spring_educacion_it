@@ -4,6 +4,7 @@ import EducacionIt.web.entities.Role;
 import EducacionIt.web.entities.UserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+
+@Log4j2
 @Component
 public class JwtUtil {
 
@@ -25,7 +28,7 @@ public class JwtUtil {
      * Se carga desde application.properties con la propiedad ${secret.apiKey}
      * IMPORTANTE: Debe tener mínimo 256 bits (32 caracteres) para HS256
      */
-    @Value("${secret.apiKey:digitalers.clave.super.secreta.123456789}")
+    @Value("${secret.apiKey}")
     private String SECRET_KEY;
 
 
@@ -196,7 +199,7 @@ public class JwtUtil {
     public static String generarTokenParaUsuario(String email, @Autowired IUserService userService) {
 
         User userDetails = userService.getByEmail(email);
-
+        log.debug("############################################ "+userDetails);
         Map<String, Object> additionalInfo = additionalInfo(userDetails);
         return generateTokenStatic(userDetails, additionalInfo); // O el método que uses
     }

@@ -15,7 +15,7 @@ spring:
 server:
   port: ${PORT:8081}
 secret:
-  apiKey: digitalers.clave.super.secreta.123456789
+  apiKey: ${APIKEY}
 app:
   cors:
     allowed-origins: http://localhost:8080,http://localhost:3000
@@ -68,3 +68,12 @@ components:
           type: string
         email:
           type: string
+logging:
+  level:
+    EducacionIt.web.security.JwtUtil: DEBUG
+    org.springframework.aop: DEBUG
+    org.springframework.aop.framework: TRACE
+  file:
+    path: C:/Users/nesto/OneDrive/Documents/EducacionIT_Log.log
+    max-size: 10KB
+    # max-history: 1   # Días que vive el archivo antes de que Spring lo elimine.

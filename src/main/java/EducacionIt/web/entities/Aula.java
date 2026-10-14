@@ -1,11 +1,12 @@
 package EducacionIt.web.entities;
 
+import EducacionIt.web.validator.NotVoid;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
 
-@ToString
+//@ToString
 @Getter
 @Setter
 @AllArgsConstructor
@@ -20,4 +21,8 @@ public class Aula {
     private int numeroAula;
 
     private String fecha;
+
+    public Aula(String fecha){
+
+    }
 }

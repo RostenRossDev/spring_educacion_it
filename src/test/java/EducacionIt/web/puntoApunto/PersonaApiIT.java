@@ -4,6 +4,7 @@ import EducacionIt.web.dto.PersonaDto;
 import EducacionIt.web.entities.Persona;
 import EducacionIt.web.security.IUserService;
 import EducacionIt.web.security.JwtUtil;
+import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient;
@@ -14,7 +15,9 @@ import org.springframework.test.web.servlet.client.RestTestClient;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@Log4j2
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @Transactional
@@ -56,11 +59,14 @@ class PersonaApiIT {
         assertThat(creada.getId()).isNotNull();
         assertThat(creada.getNombre()).isEqualTo("Nestor");
         assertThat(creada.getApellido()).isEqualTo("Costantini");
-
+        log.info("asdhjashghjasdhjasdjhasd #################");
+        log.warn("################ warning");
+        log.error("################## error");
         // ============ 2. BUSCAR (GET) ============
         Long id = creada.getId();
         var getResponse = restClient.get()
                 .uri("/persona/" + id)
+                .header("authorization", token)
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(Persona.class)

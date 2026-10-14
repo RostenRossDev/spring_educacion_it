@@ -61,7 +61,7 @@ public class AlumnosController {
 
     /* UPDATE -> /persona/     -> no va a fallar  */
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody Estudiante estudiante){
+    public ResponseEntity<?> update(@RequestBody Estudiante estudiante) throws NoSuchMethodException {
         Estudiante updated = service.update(estudiante);
         return new ResponseEntity<>(updated, HttpStatus.OK);
     }

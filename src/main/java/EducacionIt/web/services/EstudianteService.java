@@ -5,10 +5,13 @@ import EducacionIt.web.entities.Estudiante;
 import EducacionIt.web.entities.Persona;
 import EducacionIt.web.exceptions.RegisterNotFoundException;
 import EducacionIt.web.repositories.EstudianteRepository;
+import EducacionIt.web.validator.NotVoid;
+import EducacionIt.web.validator.NotVoidValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 @Service
@@ -46,7 +49,12 @@ public class EstudianteService {
     }
 
     @Transactional
-    public Estudiante update(Estudiante estudiante) {
+    public Estudiante update(@NotVoid Estudiante estudiante) throws NoSuchMethodException {
+        Method metodo = this.getClass().getMethod("update", String.class, Long.class);
+        Object[] argumentos = new Object[]{ estudiante };
+        NotVoidValidator.validateParameters(metodo, argumentos);
+
+
         Estudiante toUpdate = repository.findById(estudiante.getId()).get();
         if (toUpdate == null) throw new RegisterNotFoundException(String.format("Persona con id %s no encontrado", estudiante.getId().toString()));
         return repository.save(estudiante);

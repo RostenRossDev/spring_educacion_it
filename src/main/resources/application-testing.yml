@@ -1,0 +1,77 @@
+spring:
+  application:
+    name: web-testing
+  # MySql Database
+  datasource:
+    url: jdbc:mysql://localhost:3306/universidad
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+server:
+  port: ${PORT:8088}
+secret:
+  apiKey: ${APIKEY}
+app:
+  cors:
+    allowed-origins: http://localhost:8080,http://localhost:3000
+
+openapi: 3.0.0
+info:
+  title: API de Ejemplo
+  description: Documentación de la API de ejemplo
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /persona:
+    get:
+      summary: Obtener lista de personas
+      responses:
+        '200':
+          description: Lista de personas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PersonaDto'
+    post:
+      summary: Crear una nueva persona
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonaDto'
+      responses:
+        '201':
+          description: Persona creada
+components:
+  schemas:
+    PersonaDto:
+      type: object
+      properties:
+        nombre:
+          type: string
+        apellido:
+          type: string
+        edad:
+          type: integer
+          format: int32
+        direccion:
+          type: string
+        telefono:
+          type: string
+        email:
+          type: string
+logging:
+  level:
+    EducacionIt.web.security.JwtUtil: DEBUG
+  file:
+    path: C:/Users/nesto/OneDrive/Documents/EducacionIT_Log.log
+    max-size: 10KB
+    #max-history: 1    => Dias que vive el archivo antes de que el software/framework lo elimine del disco duro.

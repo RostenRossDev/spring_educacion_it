@@ -1,5 +1,6 @@
 package EducacionIt.web.entities;
 
+import EducacionIt.web.validator.NotVoid;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,6 +17,7 @@ public class Facultad {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter(onMethod_ = @NotVoid)
     @Column(length = 50)
     private String nombre;
 
